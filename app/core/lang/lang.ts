@@ -9,7 +9,7 @@ class Lang {
     }
 
     setLang(key: LangKey) {
-        if (Object.values(Object.values(LangKey)[0]).includes(key)) {
+        if (key) {
             this.activeLang = key;
         }
     }
