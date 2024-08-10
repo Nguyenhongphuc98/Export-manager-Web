@@ -1,12 +1,17 @@
+'use client'
+
 import React from "react";
 import Image from "next/image";
 import LangElement from "./lang";
+import { useChannelName } from "../hook/use-channel-name";
+import { HeaderTag } from "../core/type";
 
 const Header: React.FunctionComponent<{
-  tag: string;
+  tag: HeaderTag;
   connected: boolean;
-  channel: string;
 }> = (host) => {
+  const channel = useChannelName(host.tag);
+  
   return host.connected ? (
     <div className="flex flex-none justify-center items-center mb-2 h-8 rounded w-full bg-[#E5EFFF] w-ful">
       {host.tag && <>
@@ -14,7 +19,7 @@ const Header: React.FunctionComponent<{
       <div className="w-0.5 h-5 bg-[#969595] mx-2"></div>
       </>}
       <span className="text-[#5198FF] max-w-52 truncate">
-        <LangElement style="" textKey={host.channel} />
+        <LangElement style="" textKey={channel} />
       </span>
       <Image
         className="px-1 w-6"
@@ -27,7 +32,7 @@ const Header: React.FunctionComponent<{
   ) : (
     <div className="flex flex-none justify-center items-center mb-2 h-8 rounded w-full bg-[#FFF9D0]">
       <span className="text-red-500">
-        <LangElement style="" textKey={host.channel} />
+        <LangElement style="" textKey={channel} />
       </span>
       <Image
         className="px-1 w-6"

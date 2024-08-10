@@ -21,6 +21,21 @@ class Secure {
   
       return rawData;
     }
+
+    aesEncryptUseKey(key: string, rawData: any) {
+      const ciphertext = AES.encrypt(
+        JSON.stringify(rawData),
+        key
+      ).toString();
+      return ciphertext;
+    }
+  
+    aesDecryptUseKey(key: string, encryptedData: any) {
+      const bytes = AES.decrypt(encryptedData, key);
+      const rawData = JSON.parse(bytes.toString(enc.Utf8));
+  
+      return rawData;
+    }
   }
 
   const secure = new Secure();

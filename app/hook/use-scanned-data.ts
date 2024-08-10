@@ -4,33 +4,33 @@ import { useEffect } from "react";
 import { MetaData } from "../core/qr/meta-data";
 import { startScanQR } from "../core/qr/handler";
 import { useSearchParams } from "next/navigation";
-import { ENCRYPT_KEY_PARAM, SESSION_ID_PARAM } from "../core/const";
+import { ENCRYPT_KEY_PARAM, EXPORT_ID_PARAM } from "../core/const";
 import { TextKey } from "../core/lang/text-key";
+import { useParamsValue } from "./use-params-value";
 export function useScannedData(endpoint: string) {
   const [item, setItem] = useRecoilState<any>(itemState);
   const [noti, setNoti] = useRecoilState(notiState);
 
-  const searchParams = useSearchParams();
-  const params = new URLSearchParams(searchParams);
-
-  const session = params.get(SESSION_ID_PARAM);
-  const key = params.get(ENCRYPT_KEY_PARAM);
+  const { eid, ek } = useParamsValue(EXPORT_ID_PARAM, ENCRYPT_KEY_PARAM);
 
   useEffect(() => {
-    if (!session || !key) {
-      window.location.replace('/');
+    if (!eid || !ek) {
+      window.location.replace("/");
       return;
     }
 
-    MetaData.instance().initSession(endpoint, session, key);
+    MetaData.instance().initSession(endpoint, eid, ek);
 
     startScanQR((data) => {
       MetaData.instance()
-          .getFullData(data)
-          .then((v) => {
-            setNoti(TextKey.EMPTY);
-            setItem(v);
-          });
+        .getFullData(data)
+        .then((v) => {
+          setNoti(TextKey.EMPTY);
+          setItem(v);
+        })
+        .catch((e) => {
+          window.location.replace("/");
+        });
     });
   }, []);
 }

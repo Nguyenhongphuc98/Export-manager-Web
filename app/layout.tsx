@@ -1,9 +1,14 @@
-"use client"
+"use client";
 
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { RecoilRoot } from "recoil";
+import Lang from "./core/lang/lang";
+import { useSearchParams } from "next/navigation";
+import { LangKey } from "./core/lang/lang-key";
+import { LANG_PARAM } from "./core/const";
+import Popup from "./ui/popup";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,10 +22,20 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
+
+  Lang.setLang(params.get(LANG_PARAM) as LangKey);
+
+  const bodyClassName = `${inter.className} `;
+
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <RecoilRoot>{children}</RecoilRoot>
+      <body className={bodyClassName}>
+        <RecoilRoot>
+          {children}
+          <Popup />
+        </RecoilRoot>
       </body>
     </html>
   );

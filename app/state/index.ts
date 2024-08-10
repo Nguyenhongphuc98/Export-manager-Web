@@ -37,3 +37,13 @@ export const toastState = atom({
   key: "toast",
   default: "",
 });
+
+export const popupState = atom({
+  key: "popup",
+  default: "Sản phẩm này đã được quét!",
+});
+
+export const channelState = atom({
+  key: "channel",
+  default: "",
+});

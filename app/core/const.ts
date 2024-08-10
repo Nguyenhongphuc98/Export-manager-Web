@@ -1,7 +1,9 @@
+import AppConfig from "./app-config";
+import { HeaderTag } from "./type";
+
 export const LANG_PARAM = "lang";
-export const SESSION_ID_PARAM = "sid";
+export const EXPORT_ID_PARAM = "eid";
 export const ENCRYPT_KEY_PARAM = "ek";
-export const CHANNEL_NAME_PARAM = "cn";
 
 
 // const params = {
@@ -11,5 +13,11 @@ export const CHANNEL_NAME_PARAM = "cn";
 // const encodedParams = new URLSearchParams(params).toString();
 
 
-export const EXPORT_ENDPOINT = "http://164.90.186.39:8080/api/v1/mobile/export";
+export const CONNECT_ENDPOINT = AppConfig.BaseUrl + 'scanner/connect';
+export const EXPORT_ENDPOINT = AppConfig.BaseUrl + 'scanner/export';
 export const WEIGH_ENDPOINT = "http://164.90.186.39:8080/api/v1/mobile/weigh";
+
+export const HEADER_PARAMS_MAP = new Map([
+    [HeaderTag.EXPORT, 'eid'],
+    [HeaderTag.WEIGH, 'eid'],
+])
