@@ -49,7 +49,7 @@ export const toastState = atom({
 
 export const popupState = atom({
   key: "popup",
-  default: "dasdasdaf asfdsfsafas",
+  default: "",
 });
 
 export const channelState = atom({

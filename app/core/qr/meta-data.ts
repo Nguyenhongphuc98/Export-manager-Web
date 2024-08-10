@@ -53,30 +53,27 @@ export class MetaData {
         return onDone(data);
       }
 
-      return fetch(this.endpoint, {
+      return fetch(this.endpoint + `?eid=${this.exportId}`, {
         method: "post",
         headers: { "Content-Type": "text/plain" },
         body: secure.aesEncrypt({
           subId: data,
-          eid: this.exportId,
         }),
       })
         .then(async (res) => {
           const jsonRes: JSONResponse = await res.json();
 
-          const data: ExportedItemData = jsonRes.data as ExportedItemData;
+          const data: ExportedItemData =
+            jsonRes.error_code == ErrorCode.SessionNotFound
+              ? jsonRes.data
+              : (secure.aesDecrypt(jsonRes.data) as ExportedItemData);
 
           switch (data.status) {
-            case ExportedItemStatus.Success: {
-              onDone(secure.aesDecrypt(jsonRes.data));
-              break;
-            }
-            case ExportedItemStatus.Duplicate: {
-              onDone(secure.aesDecrypt(jsonRes.data));
-              break;
-            }
-            case ExportedItemStatus.InvalidItem: {
-              onDone(secure.aesDecrypt(jsonRes.data));
+            case ExportedItemStatus.Success:
+            case ExportedItemStatus.Duplicate:
+            case ExportedItemStatus.InvalidItem:
+            case ExportedItemStatus.ItemNotFound: {
+              onDone(data);
               break;
             }
             case ExportedItemStatus.NoSession: {
@@ -99,10 +96,9 @@ export class MetaData {
     return this.lastData;
   }
 
-  getChanelName(type: 'eid | wid', sessionId: string, key: string) {
-
+  getChanelName(type: "eid | wid", sessionId: string, key: string) {
     if (!type) {
-      return Promise.resolve(TextKey.SESSION_EXPIRE)
+      return Promise.resolve(TextKey.SESSION_EXPIRE);
     }
 
     const endpoint = `${CONNECT_ENDPOINT}?${type}=${sessionId}`;
@@ -112,15 +108,17 @@ export class MetaData {
       headers: { "Content-Type": "text/plain" },
     })
       .then(async (res) => {
-
         const jsonRes: JSONResponse = await res.json();
         if (jsonRes.error_code == ErrorCode.Success) {
-          const rawData: any = secure.aesDecryptUseKey(key, jsonRes.data) as ExportedItemData;
+          const rawData: any = secure.aesDecryptUseKey(
+            key,
+            jsonRes.data
+          ) as ExportedItemData;
           if (rawData.status === ConnectScannerStatus.Success) {
             return rawData.info.channelName;
           }
         }
-        
+
         throw new Error(`fetch channel stt: ${jsonRes.error_code}`);
       })
       .catch((e) => {
@@ -129,3 +127,6 @@ export class MetaData {
       });
   }
 }
+
+//@ts-ignore
+window.t = MetaData.instance();

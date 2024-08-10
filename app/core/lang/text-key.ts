@@ -10,6 +10,7 @@ export enum TextKey {
     SCAN_DUP = 'SCAN_DUP',
     SCAN_INVALID = 'SCAN_INVALID',
     SCAN_NO_SESSION = 'SCAN_NO_SESSION',
+    SCAN_NO_ITEM = 'SCAN_NO_ITEM',
 };
 
 type LangMapingItem = {
@@ -58,5 +59,10 @@ export const LangMaping: Record<string, LangMapingItem> = {
         vi: "Phiên xử lý này không tồn tại!",
         en: "SCAN_DUP",
         zh: "SCAN_DUP",
+    },
+    [TextKey.SCAN_NO_ITEM]: {
+        vi: "Sản phẩm này không tồn tại!",
+        en: "SCAN_NO_ITEM",
+        zh: "SCAN_NO_ITEM",
     },
 }

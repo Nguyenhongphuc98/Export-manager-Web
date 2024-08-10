@@ -29,4 +29,5 @@ export const SCAN_STATUS_HEADER_MAP = new Map([
     [ExportedItemStatus.Duplicate, TextKey.SCAN_DUP],
     [ExportedItemStatus.InvalidItem, TextKey.SCAN_INVALID],
     [ExportedItemStatus.NoSession, TextKey.SCAN_NO_SESSION],
+    [ExportedItemStatus.NoSession, TextKey.SCAN_NO_SESSION],
 ]);
