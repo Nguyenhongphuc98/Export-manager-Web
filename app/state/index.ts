@@ -1,5 +1,6 @@
 import { atom, selector } from "recoil";
 import { TextKey } from "../core/lang/text-key";
+import { ExportedItemData, ExportedItemStatus } from "../core/qr/type";
 
 export const hostState = atom({
   key: "host",
@@ -13,18 +14,26 @@ export const hostState = atom({
   // },
 });
 
-export const itemState = atom({
-  key: "item",
+
+const defaultItemState: ExportedItemData = {
+  status: ExportedItemStatus.Success,
+  info: {
+    packageSeries: "packageSeries",
+    po: "po",
+    sku: "sku",
+    packageId: "packageId",
+    itemsInPackage: 12,
+    netWeight: 100,
+    grossWeight: 20,
+    width: 45,
+    length: 354,
+    height: 3453,
+  },
+}
+export const itemState = atom<ExportedItemData>({
+  key: "item",//@ts-ignore
   default: "",
-  // default: "d asda sdasdsa",
-  // default: {
-  //   QRNum: "14567",
-  //   Invoice: "100.000.000 VNĐ",
-  //   ItemNum: "xias124",
-  //   BoxNum: "65",
-  //   Amount: "34356",
-  //   Remark: "asdf32f2133 asd asd adsa d dasd432",
-  // },
+  // default: defaultItemState
 });
 
 export const notiState = atom({
@@ -40,7 +49,7 @@ export const toastState = atom({
 
 export const popupState = atom({
   key: "popup",
-  default: "Sản phẩm này đã được quét!",
+  default: "dasdasdaf asfdsfsafas",
 });
 
 export const channelState = atom({

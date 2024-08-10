@@ -14,8 +14,6 @@ import { HeaderTag } from "../core/type";
 
 export default function Export() {
 
-  useScannedData(EXPORT_ENDPOINT);
-
   return (
     <main className="flex min-h-screen flex-col items-center p-4 bg-white">
       <Header tag={HeaderTag.EXPORT} connected={true}/>
@@ -27,7 +25,7 @@ export default function Export() {
       <div className="bg-white flex flex-col w-full h-1/2 items-center justify-between pt-2">
         <div className="flex flex-col w-full">
           <Noti />
-          <ScannedData />
+          <ScannedData submitTo={EXPORT_ENDPOINT}/>
         </div>
         <div></div>
       </div>

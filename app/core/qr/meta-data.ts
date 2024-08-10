@@ -41,9 +41,9 @@ export class MetaData {
     secure.init(encryptedKey);
   }
 
-  getFullData(data: any) {
+  getFullData(data: any): Promise<ExportedItemData> {
     return new Promise((resolve) => {
-      const onDone = (meta: any) => {
+      const onDone = (meta: ExportedItemData) => {
         this.lastData = meta;
         resolve(meta);
       };

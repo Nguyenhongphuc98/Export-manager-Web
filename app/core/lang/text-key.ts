@@ -7,6 +7,9 @@ export enum TextKey {
     EXPORT = 'EXPORT',
     WEIGH = 'WEIGH',
     SCAN_SUCCESS = 'SCAN_SUCCESS',
+    SCAN_DUP = 'SCAN_DUP',
+    SCAN_INVALID = 'SCAN_INVALID',
+    SCAN_NO_SESSION = 'SCAN_NO_SESSION',
 };
 
 type LangMapingItem = {
@@ -40,5 +43,20 @@ export const LangMaping: Record<string, LangMapingItem> = {
         vi: "QUÉT THÀNH CÔNG",
         en: "SCAN SUCCESS",
         zh: "掃描碼成功",
+    },
+    [TextKey.SCAN_DUP]: {
+        vi: "Sản phẩm này đã được quét!",
+        en: "SCAN_DUP",
+        zh: "SCAN_DUP",
+    },
+    [TextKey.SCAN_INVALID]: {
+        vi: "Sản phẩm này không có trong phiên!",
+        en: "SCAN_INVALID",
+        zh: "SCAN_INVALID",
+    },
+    [TextKey.SCAN_NO_SESSION]: {
+        vi: "Phiên xử lý này không tồn tại!",
+        en: "SCAN_DUP",
+        zh: "SCAN_DUP",
     },
 }

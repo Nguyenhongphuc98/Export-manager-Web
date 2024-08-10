@@ -1,15 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import { useRecoilState } from "recoil";
 import { popupState } from "../state";
+import popupManager from "../core/popup-manager";
 
 const Popup: React.FunctionComponent = (props: any) => {
   const [message, setMessage] = useRecoilState<any>(popupState);
 
+  useEffect(
+    () => {
+      popupManager.setExecutor(setMessage);
+      return () => {};
+    },
+    //eslint-disable-next-line
+    []
+  );
+
+  const closePopup = () => {
+    console.log("clickkk");
+    popupManager.close();
+  };
+
   if (message == "") {
     return null;
   }
-  
+
   return (
     <>
       <div className="fixed flex justify-center items-center w-screen h-screen z-50 top-0 bg-black bg-opacity-40">
@@ -22,7 +37,10 @@ const Popup: React.FunctionComponent = (props: any) => {
             alt="connected-icon"
           />
           <span className="font-bold m-2">{message}</span>
-          <button className="bg-[#F5832F] w-fit py-1 px-4 m-4 rounded-md text-white text-lg">
+          <button
+            onClick={closePopup}
+            className="bg-[#F5832F] w-fit py-1 px-4 m-4 rounded-md text-white text-lg focus:bg-[#f96a01]"
+          >
             Đã hiểu
           </button>
         </div>
