@@ -3,7 +3,7 @@
 FROM node:18
 WORKDIR /app
 COPY . .
-RUN yarn install --production
-# RUN yarn run dev
-CMD ["yarn", "start"]
+RUN yarn install 
+# RUN yarn run build
+CMD ["yarn", "dev"]
 EXPOSE 3000
