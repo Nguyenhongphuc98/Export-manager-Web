@@ -17,6 +17,7 @@ export const hostState = atom({
 
 const defaultItemState: ExportedItemData = {
   status: ExportedItemStatus.Success,
+  exportId: '1',
   info: {
     packageSeries: "packageSeries",
     po: "po",

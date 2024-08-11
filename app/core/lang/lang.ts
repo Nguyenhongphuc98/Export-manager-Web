@@ -1,14 +1,26 @@
+'use client'
+
 import { LangKey } from "./lang-key";
 import { LangMaping, TextKey } from "./text-key";
 
 const DEFAULT_LANG_KEY = 'd_l_k';
 
-class Lang {
+export default class Lang {
     activeLang: LangKey;
+
+    private static _instance: Lang;
     
     constructor() {
         const lang = typeof window !== 'undefined' && localStorage.getItem(DEFAULT_LANG_KEY);
         this.activeLang = lang as LangKey || LangKey.VietNam;
+        // this.activeLang = LangKey.VietNam;
+    }
+
+    public static instance() {
+        if (!this._instance) {
+            this._instance = new this();
+        }
+        return this._instance;
     }
 
     setLang(key: LangKey) {
@@ -26,8 +38,3 @@ class Lang {
         }
     }
 }
-
-
-
-const lang = new Lang();
-export default lang;

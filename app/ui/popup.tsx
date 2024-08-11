@@ -3,9 +3,18 @@ import Image from "next/image";
 import { useRecoilState } from "recoil";
 import { popupState } from "../state";
 import popupManager from "../core/popup-manager";
+import Lang from "../core/lang/lang";
+import { useSearchParams } from "next/navigation";
+import { LangKey } from "../core/lang/lang-key";
+import { LANG_PARAM } from "../core/const";
 
 const Popup: React.FunctionComponent = (props: any) => {
   const [message, setMessage] = useRecoilState<any>(popupState);
+
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
+
+  Lang.instance().setLang(params.get(LANG_PARAM) as LangKey);
 
   useEffect(
     () => {

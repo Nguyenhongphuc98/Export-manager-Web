@@ -3,7 +3,6 @@ import { itemState, notiState } from "../state";
 import { useEffect } from "react";
 import { MetaData } from "../core/qr/meta-data";
 import { startScanQR } from "../core/qr/handler";
-import { useSearchParams } from "next/navigation";
 import { ENCRYPT_KEY_PARAM, EXPORT_ID_PARAM, SCAN_STATUS_HEADER_MAP } from "../core/const";
 import { TextKey } from "../core/lang/text-key";
 import { useParamsValue } from "./use-params-value";

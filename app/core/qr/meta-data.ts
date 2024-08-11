@@ -127,6 +127,3 @@ export class MetaData {
       });
   }
 }
-
-//@ts-ignore
-window.t = MetaData.instance();

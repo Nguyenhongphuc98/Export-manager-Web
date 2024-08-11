@@ -4,11 +4,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { RecoilRoot } from "recoil";
-import Lang from "./core/lang/lang";
-import { useSearchParams } from "next/navigation";
-import { LangKey } from "./core/lang/lang-key";
-import { LANG_PARAM } from "./core/const";
 import Popup from "./ui/popup";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,21 +19,23 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const searchParams = useSearchParams();
-  const params = new URLSearchParams(searchParams);
-
-  Lang.setLang(params.get(LANG_PARAM) as LangKey);
-
   const bodyClassName = `${inter.className} `;
 
   return (
     <html lang="en">
       <body className={bodyClassName}>
         <RecoilRoot>
-          {children}
-          <Popup />
+          <Suspense>
+            {children}
+            <Popup />
+          </Suspense>
         </RecoilRoot>
       </body>
     </html>
   );
 }
+
+/**
+ * docker build -t my-nextjs-app .
+ * docker run -p 3000:3000 my-nextjs-app
+ */
