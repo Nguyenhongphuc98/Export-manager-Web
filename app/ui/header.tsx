@@ -10,10 +10,11 @@ const Header: React.FunctionComponent<{
   tag: HeaderTag;
   connected: boolean;
 }> = (host) => {
-  const channel = useChannelName(host.tag);
+  // const channel = useChannelName(host.tag);
+  const channel = 'test weigh';
   
   return host.connected ? (
-    <div className="flex flex-none justify-center items-center mb-2 h-8 rounded w-full bg-[#E5EFFF] w-ful">
+    <div className="flex flex-none justify-center items-center mb-2 h-8 rounded w-full bg-[#E5EFFF]">
       {host.tag && <>
       <LangElement style="text-[#5198FF] font-semibold" textKey={host.tag}/>
       <div className="w-0.5 h-5 bg-[#969595] mx-2"></div>

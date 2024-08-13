@@ -36,7 +36,7 @@ const Popup: React.FunctionComponent = (props: any) => {
 
   return (
     <>
-      <div className="fixed flex justify-center items-center w-screen h-screen z-50 top-0 bg-black bg-opacity-40">
+      <div className="fixed flex justify-center items-center w-screen h-screen z-30 top-0 bg-black bg-opacity-40">
         <div className="flex flex-col justify-center items-center bg-white text-[#EF4E49] w-5/6 h-fit rounded-md py-2 wrap text-center">
           <Image
             className="px-1"

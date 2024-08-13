@@ -1,15 +1,18 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
 import { itemState } from "../state";
-import Image from "next/image"
+import Image from "next/image";
 import LangElement from "./lang";
 import { TextKey } from "../core/lang/text-key";
 import { HeaderTag } from "../core/type";
 import { useScannedData } from "../hook/use-scanned-data";
-import { SCAN_STATUS_HEADER_MAP } from "../core/const";
-import { ExportedItemData } from "../core/qr/type";
+import { SCAN_STATUS_HEADER_MAP, VISIBLE_SCANNED_FIELDS } from "../core/const";
+import { ScannedItemData, ScannedItemStatus } from "../core/qr/type";
 
-const ScanedData: React.FunctionComponent<{submitTo: string}> = ({submitTo}) => {
+const ScanedData: React.FunctionComponent<{
+  submitTo: string;
+  footerr?: () => React.ReactNode;
+}> = ({ submitTo, footerr }) => {
   const item = useScannedData(submitTo);
 
   // const stringView = (text: string) => {
@@ -21,29 +24,35 @@ const ScanedData: React.FunctionComponent<{submitTo: string}> = ({submitTo}) => 
   //   );
   // };
 
-  const objectView = (data: ExportedItemData['info']) => {
+  const objectView = (data: ScannedItemData["info"]) => {
     return (
-      <div className="flex flex-col w-full h-full px-4 overflow-y-auto" style={{height: "30vh"}}>
+      <div
+        className="flex flex-col w-full h-full px-4 overflow-y-auto"
+        style={{ maxHeight: "30vh" }}
+      >
         {/* <div className="bg-emerald-400 text-white rounded w-fit px-1 py-0.5 my-1">Dữ liệu cấu trúc</div> */}
         {data &&
-          Object.keys(data).map((k) => {
-            //@ts-ignore
-            const value = data[k];
-            return (
-              <div className="flex w-full mt-1.5 border-b" key={k}>
-                <div
-                  className="flex w-3/6 text-start text-[#7B7B7D] font-semibold items-center truncate"
-                >
-                  <span className="truncate">{k}</span>
+          Object.keys(data)
+            .map((k) => {
+              if (!VISIBLE_SCANNED_FIELDS.has(k)) {
+                return null;
+              }
+              //@ts-ignore
+              const value = data[k];
+              return (
+                <div className="flex w-full mt-1.5 border-b" key={k}>
+                  <div className="flex w-3/6 text-start text-[#7B7B7D] font-semibold items-center truncate">
+                    <span className="truncate">{k}</span>
+                  </div>
+                  <div className="flex w-3/6 font-semibold items-center text-[#001A33]">
+                    <span className="truncate">{value}</span>
+                  </div>
                 </div>
-                <div
-                  className="flex w-3/6 font-semibold items-center text-[#001A33]"
-                >
-                  <span className="truncate">{value}</span>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })
+            .filter((v) => v !== null)}
+        <div className="flex w-full mt-1.5 h-6" key="empty row">
+        </div>
       </div>
     );
   };
@@ -56,18 +65,25 @@ const ScanedData: React.FunctionComponent<{submitTo: string}> = ({submitTo}) => 
 
   if (!item) return null;
 
-  const headerTextKey = SCAN_STATUS_HEADER_MAP.get(item.status) || '';
-  console.log('aabc', item);
+  const headerTextKey = SCAN_STATUS_HEADER_MAP.get(item.status) || "";
 
-  return <div className="flex flex-col bg-white justify-center m-4">
+  return (
+    <div className="flex flex-col w-11/12 bg-white justify-center m-4">
       <div className="flex  mb-0.5 bg-[#EEEEEE] p-1 rounded-t-md">
-      <Image src="/success-green.png" alt ="success icon" width={24} height={24}/>
-        <span className="mx-1 text-[#00C578] font-semibold"><LangElement style="" textKey={headerTextKey}/></span>
+        <Image
+          src="/success-green.png"
+          alt="success icon"
+          width={24}
+          height={24}
+        />
+        <span className="mx-1 text-[#00C578] font-semibold">
+          <LangElement style="" textKey={headerTextKey} />
+        </span>
       </div>
-      <div className=" bg-[#F8F8F8]">
-        {getContent()}
-      </div>
+      <div className=" bg-[#F8F8F8]">{getContent()}</div>
+      {item.status == ScannedItemStatus.Success && footerr ? footerr() : null}
     </div>
+  );
 };
 
 export default React.memo(ScanedData);

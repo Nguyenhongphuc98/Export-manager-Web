@@ -1,9 +1,9 @@
 import AppConfig from "../app-config";
-import { CONNECT_ENDPOINT } from "../const";
+import { CONNECT_ENDPOINT, SUBMIT_WEIGH_ENDPOINT } from "../const";
 import { TextKey } from "../lang/text-key";
 import { ConnectScannerStatus, DataResult, ErrorCode } from "../type";
 import secure from "./secure";
-import { ExportedItemData, ExportedItemStatus } from "./type";
+import { ScannedItemData, ScannedItemStatus } from "./type";
 
 type JSONResponse = {
   error_code: number;
@@ -17,10 +17,10 @@ export class MetaData {
   endpoint: string = "";
 
   /**
-   * session of export | weigh
+   * session of export<exportId> | weigh<pklId>
    * Server use this to detect session expire
    */
-  exportId: string = "";
+  sessionId: string = "";
 
   lastData: any;
 
@@ -35,15 +35,15 @@ export class MetaData {
     return this._instance;
   }
 
-  initSession(url: string, exportId: string, encryptedKey: string) {
+  initSession(url: string, sesionId: string, encryptedKey: string) {
     this.endpoint = url;
-    this.exportId = exportId;
+    this.sessionId = sesionId;
     secure.init(encryptedKey);
   }
 
-  getFullData(data: any): Promise<ExportedItemData> {
+  getFullData(data: any): Promise<ScannedItemData> {
     return new Promise((resolve) => {
-      const onDone = (meta: ExportedItemData) => {
+      const onDone = (meta: ScannedItemData) => {
         this.lastData = meta;
         resolve(meta);
       };
@@ -53,7 +53,7 @@ export class MetaData {
         return onDone(data);
       }
 
-      return fetch(this.endpoint + `?eid=${this.exportId}`, {
+      return fetch(this.endpoint + `?sid=${this.sessionId}`, {
         method: "post",
         headers: { "Content-Type": "text/plain" },
         body: secure.aesEncrypt({
@@ -63,20 +63,20 @@ export class MetaData {
         .then(async (res) => {
           const jsonRes: JSONResponse = await res.json();
 
-          const data: ExportedItemData =
+          const data: ScannedItemData =
             jsonRes.error_code == ErrorCode.SessionNotFound
               ? jsonRes.data
-              : (secure.aesDecrypt(jsonRes.data) as ExportedItemData);
+              : (secure.aesDecrypt(jsonRes.data) as ScannedItemData);
 
           switch (data.status) {
-            case ExportedItemStatus.Success:
-            case ExportedItemStatus.Duplicate:
-            case ExportedItemStatus.InvalidItem:
-            case ExportedItemStatus.ItemNotFound: {
+            case ScannedItemStatus.Success:
+            case ScannedItemStatus.Duplicate:
+            case ScannedItemStatus.InvalidItem:
+            case ScannedItemStatus.ItemNotFound: {
               onDone(data);
               break;
             }
-            case ExportedItemStatus.NoSession: {
+            case ScannedItemStatus.NoSession: {
               throw new Error("No session");
               break;
             }
@@ -113,7 +113,7 @@ export class MetaData {
           const rawData: any = secure.aesDecryptUseKey(
             key,
             jsonRes.data
-          ) as ExportedItemData;
+          ) as ScannedItemData;
           if (rawData.status === ConnectScannerStatus.Success) {
             return rawData.info.channelName;
           }
@@ -125,5 +125,15 @@ export class MetaData {
         console.log("fail to get chanel name", e);
         throw e;
       });
+  }
+
+  submitWeighData(weigh: number) {
+    return fetch(SUBMIT_WEIGH_ENDPOINT + `?sid=${this.sessionId}`, {
+      method: "post",
+      headers: { "Content-Type": "text/plain" },
+      body: secure.aesEncrypt({
+        subId: this.getLastData()?.id,
+      }),
+    })
   }
 }

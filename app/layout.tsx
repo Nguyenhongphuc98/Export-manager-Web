@@ -6,6 +6,7 @@ import "./globals.css";
 import { RecoilRoot } from "recoil";
 import Popup from "./ui/popup";
 import { Suspense } from "react";
+import Toast from "./ui/toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
       <body className={bodyClassName}>
         <RecoilRoot>
           <Suspense>
+            <Toast />
             {children}
             <Popup />
           </Suspense>

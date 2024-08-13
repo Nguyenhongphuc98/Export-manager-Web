@@ -1,13 +1,9 @@
 "use client";
 
-import { useRecoilState } from "recoil";
 
-import { TextKey } from "../core/lang/text-key";
 import Header from "../ui/header";
 import Noti from "../ui/noti";
 import ScannedData from "../ui/scanned-data";
-import { itemState, notiState } from "../state";
-import { useScannedData } from "../hook/use-scanned-data";
 import { EXPORT_ENDPOINT } from "../core/const";
 import { HeaderTag } from "../core/type";
 

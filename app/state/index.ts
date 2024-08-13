@@ -1,6 +1,6 @@
 import { atom, selector } from "recoil";
 import { TextKey } from "../core/lang/text-key";
-import { ExportedItemData, ExportedItemStatus } from "../core/qr/type";
+import { ScannedItemData, ScannedItemStatus } from "../core/qr/type";
 
 export const hostState = atom({
   key: "host",
@@ -15,26 +15,27 @@ export const hostState = atom({
 });
 
 
-const defaultItemState: ExportedItemData = {
-  status: ExportedItemStatus.Success,
+const defaultItemState: ScannedItemData = {
+  status: ScannedItemStatus.Success,
   exportId: '1',
   info: {
+    id: '1',
     packageSeries: "packageSeries",
     po: "po",
-    sku: "sku",
+    // sku: "sku",
     packageId: "packageId",
-    itemsInPackage: 12,
-    netWeight: 100,
-    grossWeight: 20,
-    width: 45,
-    length: 354,
-    height: 3453,
+    // itemsInPackage: 12,
+    // netWeight: 100,
+    // grossWeight: 20,
+    // width: 45,
+    // length: 354,
+    // height: 3453,
   },
 }
-export const itemState = atom<ExportedItemData>({
+export const itemState = atom<ScannedItemData>({
   key: "item",//@ts-ignore
-  default: "",
-  // default: defaultItemState
+  // default: "",
+  default: defaultItemState
 });
 
 export const notiState = atom({
@@ -56,4 +57,9 @@ export const popupState = atom({
 export const channelState = atom({
   key: "channel",
   default: "",
+});
+
+export const weighSubmittedState = atom<boolean>({
+  key: "weighState",
+  default: false,
 });

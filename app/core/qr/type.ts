@@ -1,4 +1,4 @@
-export enum ExportedItemStatus {
+export enum ScannedItemStatus {
   Success = 0, //quet thanh cong
   Duplicate = 1, // item da duoc quet
   NoSession = 2, // khong co export/weigh session tuong ung dang mo => kick out
@@ -7,19 +7,20 @@ export enum ExportedItemStatus {
   Error = 5, // unknow error
 }
 
-export type ExportedItemData = {
-  status: ExportedItemStatus;
+export type ScannedItemData = {
+  status: ScannedItemStatus;
   exportId: string,
   info: {
+    id: string,
     packageSeries: string;
     po: string;
-    sku: string;
+    // sku: string;
     packageId: string;
-    itemsInPackage: number;
-    netWeight: number;
-    grossWeight: number;
-    width: number;
-    length: number;
-    height: number;
+    // itemsInPackage: number;
+    // netWeight: number;
+    // grossWeight: number;
+    // width: number;
+    // length: number;
+    // height: number;
   };
 };

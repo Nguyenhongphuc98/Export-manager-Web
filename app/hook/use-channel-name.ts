@@ -17,6 +17,7 @@ export function useChannelName(tag: HeaderTag) {
 
   useEffect(() => {
     const kickout = () => {
+      debugger;
         window.location.replace('/');
     };
 
