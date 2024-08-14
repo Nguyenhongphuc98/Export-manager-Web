@@ -3,7 +3,7 @@ import { itemState, notiState, weighSubmittedState } from "../state";
 import { useEffect } from "react";
 import { MetaData } from "../core/qr/meta-data";
 import { startScanQR } from "../core/qr/handler";
-import { ENCRYPT_KEY_PARAM, EXPORT_ID_PARAM, SCAN_STATUS_MESSAGE_MAP, WEIGH_ID_PARAM } from "../core/const";
+import { ENCRYPT_KEY_PARAM, EXPORT_ID_PARAM, SCAN_STATUS_MESSAGE_MAP, SESSION_ID_PARAM, WEIGH_ID_PARAM } from "../core/const";
 import { TextKey } from "../core/lang/text-key";
 import { useParamsValue } from "./use-params-value";
 import { ScannedItemData, ScannedItemStatus } from "../core/qr/type";
@@ -16,15 +16,18 @@ export function useScannedData(endpoint: string) {
   const [submitted, setSubmitted] =
     useRecoilState<boolean>(weighSubmittedState);
 
-  const { eid, wid, ek } = useParamsValue(EXPORT_ID_PARAM, WEIGH_ID_PARAM, ENCRYPT_KEY_PARAM);
+  const { sid, ek } = useParamsValue(SESSION_ID_PARAM, ENCRYPT_KEY_PARAM);
 
   useEffect(() => {
-    if ((!eid && !wid) || !ek) {
+    const kickout = () => {
       window.location.replace("/");
+    }
+    if (!sid || !ek) {
+      kickout();
       return;
     }
 
-    MetaData.instance().initSession(endpoint, eid || wid, ek);
+    MetaData.instance().initSession(endpoint, sid, ek);
 
     startScanQR((data) => {
       MetaData.instance()
@@ -39,8 +42,8 @@ export function useScannedData(endpoint: string) {
           }
         })
         .catch((e) => {
-          debugger;
-          window.location.replace("/");
+          console.error('scan error: ', e);
+          kickout();
         });
     });
   }, []);

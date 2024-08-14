@@ -7,6 +7,7 @@ export const LANG_PARAM = "lang";
 export const EXPORT_ID_PARAM = "eid";
 export const WEIGH_ID_PARAM = "wid";
 export const ENCRYPT_KEY_PARAM = "ek";
+export const SESSION_ID_PARAM = "sid";
 
 
 // const params = {
@@ -16,15 +17,17 @@ export const ENCRYPT_KEY_PARAM = "ek";
 // const encodedParams = new URLSearchParams(params).toString();
 
 
-export const CONNECT_ENDPOINT = AppConfig.BaseUrl + 'scanner/connect';
+export const CONNECT_WEIGH_ENDPOINT = AppConfig.BaseUrl + 'scanner/connectw';
+export const CONNECT_EXPORT_ENDPOINT = AppConfig.BaseUrl + 'scanner/connecte';
 export const EXPORT_ENDPOINT = AppConfig.BaseUrl + 'scanner/export';
 export const GET_WEIGH_ENDPOINT = AppConfig.BaseUrl + 'scanner/gweigh';
-export const SUBMIT_WEIGH_ENDPOINT = AppConfig.BaseUrl + 'scanner/gweigh';
+export const SUBMIT_WEIGH_ENDPOINT = AppConfig.BaseUrl + 'scanner/uweigh';
 
-export const HEADER_PARAMS_MAP = new Map([
-    [HeaderTag.EXPORT, 'eid'],
-    [HeaderTag.WEIGH, 'wid'],
-]);
+export enum PAGE_PATH {
+    HOME = '/',
+    EXPORT = '/export',
+    WEIGH = '/weigh',
+} 
 
 export const SCAN_STATUS_HEADER_MAP = new Map([
     [ScannedItemStatus.Success, TextKey.SCAN_SUCCESS],

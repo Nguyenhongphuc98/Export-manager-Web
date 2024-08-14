@@ -1,6 +1,8 @@
 import AppConfig from "../app-config";
-import { CONNECT_ENDPOINT, SUBMIT_WEIGH_ENDPOINT } from "../const";
+import { CONNECT_EXPORT_ENDPOINT, CONNECT_WEIGH_ENDPOINT, PAGE_PATH, SUBMIT_WEIGH_ENDPOINT } from "../const";
+import Lang from "../lang/lang";
 import { TextKey } from "../lang/text-key";
+import toaster from "../toast-manager";
 import { ConnectScannerStatus, DataResult, ErrorCode } from "../type";
 import secure from "./secure";
 import { ScannedItemData, ScannedItemStatus } from "./type";
@@ -8,6 +10,7 @@ import { ScannedItemData, ScannedItemStatus } from "./type";
 type JSONResponse = {
   error_code: number;
   data: any;
+  message: string;
 };
 
 export class MetaData {
@@ -96,18 +99,15 @@ export class MetaData {
     return this.lastData;
   }
 
-  getChanelName(type: "eid | wid", sessionId: string, key: string) {
-    if (!type) {
-      return Promise.resolve(TextKey.SESSION_EXPIRE);
-    }
-
-    const endpoint = `${CONNECT_ENDPOINT}?${type}=${sessionId}`;
+  getChanelName(pagePath: PAGE_PATH, sessionId: string, key: string) {
+    const endpoint = `${pagePath === PAGE_PATH.WEIGH ? CONNECT_WEIGH_ENDPOINT : CONNECT_EXPORT_ENDPOINT}?sid=${sessionId}`;
 
     return fetch(endpoint, {
       method: "get",
       headers: { "Content-Type": "text/plain" },
     })
       .then(async (res) => {
+
         const jsonRes: JSONResponse = await res.json();
         if (jsonRes.error_code == ErrorCode.Success) {
           const rawData: any = secure.aesDecryptUseKey(
@@ -119,7 +119,7 @@ export class MetaData {
           }
         }
 
-        throw new Error(`fetch channel stt: ${jsonRes.error_code}`);
+        throw new Error(`fetch channel stt: ${jsonRes.error_code} - ${jsonRes.message}`);
       })
       .catch((e) => {
         console.log("fail to get chanel name", e);
@@ -132,8 +132,22 @@ export class MetaData {
       method: "post",
       headers: { "Content-Type": "text/plain" },
       body: secure.aesEncrypt({
-        subId: this.getLastData()?.id,
+        subId: 501,
+        weigh: weigh,
       }),
-    })
+    }).then(async (res) => {
+      const jsonRes: JSONResponse = await res.json();
+      console.log('submitWeighData done: ', jsonRes.error_code, jsonRes.message);
+
+      if (jsonRes.error_code == ErrorCode.Success) {
+        return true;
+      }
+      
+      throw new Error('fail: ' + jsonRes.error_code);
+    }).catch(e => {
+      toaster.show(Lang.instance().text(TextKey.ERR_RETRY)  || '', 2000);
+      console.error('submitWeighData err: ', e);
+      return false;
+    });
   }
 }

@@ -10,8 +10,7 @@ const Header: React.FunctionComponent<{
   tag: HeaderTag;
   connected: boolean;
 }> = (host) => {
-  // const channel = useChannelName(host.tag);
-  const channel = 'test weigh';
+  const channel = useChannelName(host.tag);
   
   return host.connected ? (
     <div className="flex flex-none justify-center items-center mb-2 h-8 rounded w-full bg-[#E5EFFF]">

@@ -14,26 +14,28 @@ import { MetaData } from "../core/qr/meta-data";
 import toaster from "../core/toast-manager";
 import Lang from "../core/lang/lang";
 import { LangKey } from "../core/lang/lang-key";
+import { useState } from "react";
 
 export default function Weigh() {
   const [submitted, setSubmitted] =
     useRecoilState<boolean>(weighSubmittedState);
+  const [weighInput, setWeighInput] = useState("");
 
   const submitWeighData = () => {
-    const weigh = document.getElementById("wip");
     MetaData.instance()
-      .submitWeighData(Number(weigh?.textContent))
-      .then((_) => {
-        setSubmitted(true);
-      })
-      .catch((e) => {
-        setSubmitted(true);
-        toaster.show(Lang.instance().text(TextKey.ERR_RETRY) || 'Error, try later!');
-        console.error("submit weigh data err:", e);
+      .submitWeighData(Number(weighInput))
+      .then((success) => {
+        if (success) {
+          setSubmitted(true);
+        }
       });
   };
 
-  const weighInput = () => {
+  const onWeighInputChange = (e: any) => {
+    setWeighInput(e.target.value);
+  };
+
+  const weighInputView = () => {
     return (
       <div className="flex w-full mt-1 px-4 py-2 bg-[#EEEEEE]" key="wfn">
         <div className="flex w-3/6 text-start text-[#414E5A] font-semibold items-center truncate">
@@ -46,6 +48,9 @@ export default function Weigh() {
             {submitted && (
               <div className="flex">
                 <input
+                  onChange={onWeighInputChange}
+                  value={weighInput}
+                  type="number"
                   id="wip"
                   className="w-24 border rounded-sm border-[#66DCAE]"
                 ></input>
@@ -61,6 +66,9 @@ export default function Weigh() {
 
             {!submitted && (
               <input
+                onChange={onWeighInputChange}
+                value={weighInput}
+                type="number"
                 id="wip"
                 className="w-24 border rounded-sm border-[#F9B582]"
               ></input>
@@ -74,6 +82,8 @@ export default function Weigh() {
     );
   };
 
+  const allowHitButton = !submitted && weighInput;
+
   return (
     <main className="flex min-h-screen flex-col items-center p-4 bg-white">
       <Header tag={HeaderTag.WEIGH} connected={true} />
@@ -85,15 +95,15 @@ export default function Weigh() {
       <div className="bg-white flex flex-col w-full h-1/2 items-center justify-between pt-2">
         <div className="flex flex-col w-full items-center">
           <Noti />
-          <ScannedData submitTo={EXPORT_ENDPOINT} footerr={weighInput} />
-          {submitted && (
+          <ScannedData submitTo={EXPORT_ENDPOINT} footerr={weighInputView} />
+          {!allowHitButton && (
             <button
               className={`fixed bottom-10 text-white font-semibold rounded-md h-10 w-3/4 bg-[#D9D9D9]`}
             >
               <LangElement style="" textKey={TextKey.SUBMIT} />
             </button>
           )}
-          {!submitted && (
+          {allowHitButton && (
             <button
               className={`fixed bottom-10 text-white font-semibold rounded-md h-10 w-3/4 bg-[#0068FF] active:bg-blue-500`}
               onClick={submitWeighData}
