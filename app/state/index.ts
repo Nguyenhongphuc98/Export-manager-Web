@@ -34,8 +34,8 @@ const defaultItemState: ScannedItemData = {
 }
 export const itemState = atom<ScannedItemData>({
   key: "item",//@ts-ignore
-  // default: "",
-  default: defaultItemState
+  default: "",
+  // default: defaultItemState
 });
 
 export const notiState = atom({
