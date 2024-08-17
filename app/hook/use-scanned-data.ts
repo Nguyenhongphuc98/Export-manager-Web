@@ -8,6 +8,7 @@ import { TextKey } from "../core/lang/text-key";
 import { useParamsValue } from "./use-params-value";
 import { ScannedItemData, ScannedItemStatus } from "../core/qr/type";
 import popupManager from "../core/popup-manager";
+import Lang from "../core/lang/lang";
 
 export function useScannedData(endpoint: string) {
   const [item, setItem] = useRecoilState<ScannedItemData>(itemState);
@@ -38,7 +39,7 @@ export function useScannedData(endpoint: string) {
           setSubmitted(false);
 
           if (v.status !== ScannedItemStatus.Success) {
-            popupManager.show(SCAN_STATUS_MESSAGE_MAP.get(v.status) || '');
+            popupManager.show(Lang.instance().text(SCAN_STATUS_MESSAGE_MAP.get(v.status)));
           }
         })
         .catch((e) => {

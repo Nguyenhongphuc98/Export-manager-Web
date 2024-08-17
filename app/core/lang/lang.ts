@@ -30,11 +30,16 @@ export default class Lang {
         }
     }
 
-    text(textKey: string) {
+    text(textKey: string = '') {
+        if (!textKey) {
+            return '';
+        }
+
         if (LangMaping[textKey]) {
             return LangMaping[textKey][this.activeLang];
         } else {
             console.info("use invalid text key.", textKey);
+            return textKey;
         }
     }
 }
