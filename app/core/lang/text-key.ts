@@ -19,6 +19,7 @@ export enum TextKey {
     WEIGH_FIELD_NAME = 'WEIGH_FIELD_NAME',
     SUBMIT = 'SUBMIT',
     ERR_RETRY = 'ERR_RETRY',
+    ERR_SCAN_AGIAN = 'ERR_SCAN_AGIAN',
 };
 
 type LangMapingItem = {
@@ -112,5 +113,10 @@ export const LangMaping: Record<string, LangMapingItem> = {
         vi: "Có lỗi, thử lại sau",
         en: "Error, retry later",
         zh: "錯誤，稍後重試",
+    },
+    [TextKey.ERR_SCAN_AGIAN]: {
+        vi: "Có lỗi, hãy quét lại.",
+        en: "Error, please scan again.",
+        zh: "錯誤，請重新掃描。",
     },
 }

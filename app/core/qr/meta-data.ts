@@ -60,11 +60,15 @@ export class MetaData {
       return API.fetch(this.endpoint + `?sid=${this.sessionId}`, {
         method: "post",
         headers: { "Content-Type": "text/plain" },
-        body: secure.aesEncrypt({
+        body: JSON.stringify(secure.aesEncrypt({
           subId: Number(data),
-        }),
+        })),
       })
         .then(async (res) => {
+          if (res.status !== 200) {
+            throw new Error('status: ' + res.status);
+          }
+
           const jsonRes: JSONResponse = await res.json();
 
           const data: ScannedItemData =
@@ -128,14 +132,14 @@ export class MetaData {
       });
   }
 
-  submitWeighData(weigh: number) {
+  submitWeighData(subdId: number, weigh: number) {
     return API.fetch(SUBMIT_WEIGH_ENDPOINT + `?sid=${this.sessionId}`, {
       method: "post",
       headers: { "Content-Type": "text/plain" },
-      body: secure.aesEncrypt({
-        subId: 501,
+      body: JSON.stringify(secure.aesEncrypt({
+        subId: subdId,
         weigh: weigh,
-      }),
+      })),
     }).then(async (res) => {
       const jsonRes: JSONResponse = await res.json();
       console.log('submitWeighData done: ', jsonRes.error_code, jsonRes.message);

@@ -3,27 +3,32 @@
 import Header from "../ui/header";
 import Noti from "../ui/noti";
 import ScannedData from "../ui/scanned-data";
-import { EXPORT_ENDPOINT, SUBMIT_WEIGH_ENDPOINT } from "../core/const";
+import { EXPORT_ENDPOINT } from "../core/const";
 import { HeaderTag } from "../core/type";
 import LangElement from "../ui/lang";
 import { TextKey } from "../core/lang/text-key";
 import { useRecoilState } from "recoil";
-import { weighSubmittedState } from "../state";
+import { itemState, weighSubmittedState } from "../state";
 import Image from "next/image";
 import { MetaData } from "../core/qr/meta-data";
-import toaster from "../core/toast-manager";
-import Lang from "../core/lang/lang";
-import { LangKey } from "../core/lang/lang-key";
 import { useState } from "react";
+import { ScannedItemData } from "../core/qr/type";
+import toaster from "../core/toast-manager";
 
 export default function Weigh() {
   const [submitted, setSubmitted] =
     useRecoilState<boolean>(weighSubmittedState);
   const [weighInput, setWeighInput] = useState("");
+  const [item, setItem] = useRecoilState<ScannedItemData>(itemState);
 
   const submitWeighData = () => {
+    if (!item || !item.info || !item.info.id) {
+      toaster.show(TextKey.ERR_SCAN_AGIAN, 2000);
+      return;
+    }
+    
     MetaData.instance()
-      .submitWeighData(Number(weighInput))
+      .submitWeighData(Number(item?.info?.id), Number(weighInput))
       .then((success) => {
         if (success) {
           setSubmitted(true);
