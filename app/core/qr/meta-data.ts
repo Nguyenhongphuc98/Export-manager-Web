@@ -1,3 +1,4 @@
+import { API } from "../api";
 import AppConfig from "../app-config";
 import { CONNECT_EXPORT_ENDPOINT, CONNECT_WEIGH_ENDPOINT, PAGE_PATH, SUBMIT_WEIGH_ENDPOINT } from "../const";
 import Lang from "../lang/lang";
@@ -56,7 +57,7 @@ export class MetaData {
         return onDone(data);
       }
 
-      return fetch(this.endpoint + `?sid=${this.sessionId}`, {
+      return API.fetch(this.endpoint + `?sid=${this.sessionId}`, {
         method: "post",
         headers: { "Content-Type": "text/plain" },
         body: secure.aesEncrypt({
@@ -102,7 +103,7 @@ export class MetaData {
   getChanelName(pagePath: PAGE_PATH, sessionId: string, key: string) {
     const endpoint = `${pagePath === PAGE_PATH.WEIGH ? CONNECT_WEIGH_ENDPOINT : CONNECT_EXPORT_ENDPOINT}?sid=${sessionId}`;
 
-    return fetch(endpoint, {
+    return API.fetch(endpoint, {
       method: "get",
       headers: { "Content-Type": "text/plain" },
     })
@@ -128,7 +129,7 @@ export class MetaData {
   }
 
   submitWeighData(weigh: number) {
-    return fetch(SUBMIT_WEIGH_ENDPOINT + `?sid=${this.sessionId}`, {
+    return API.fetch(SUBMIT_WEIGH_ENDPOINT + `?sid=${this.sessionId}`, {
       method: "post",
       headers: { "Content-Type": "text/plain" },
       body: secure.aesEncrypt({
