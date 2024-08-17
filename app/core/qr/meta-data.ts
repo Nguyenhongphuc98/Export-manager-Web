@@ -1,6 +1,11 @@
 import { API } from "../api";
 import AppConfig from "../app-config";
-import { CONNECT_EXPORT_ENDPOINT, CONNECT_WEIGH_ENDPOINT, PAGE_PATH, SUBMIT_WEIGH_ENDPOINT } from "../const";
+import {
+  CONNECT_EXPORT_ENDPOINT,
+  CONNECT_WEIGH_ENDPOINT,
+  PAGE_PATH,
+  SUBMIT_WEIGH_ENDPOINT,
+} from "../const";
 import Lang from "../lang/lang";
 import { TextKey } from "../lang/text-key";
 import toaster from "../toast-manager";
@@ -60,13 +65,15 @@ export class MetaData {
       return API.fetch(this.endpoint + `?sid=${this.sessionId}`, {
         method: "post",
         headers: { "Content-Type": "text/plain" },
-        body: JSON.stringify(secure.aesEncrypt({
-          subId: Number(data),
-        })),
+        body: JSON.stringify({
+          data: secure.aesEncrypt({
+            subId: Number(data),
+          }),
+        }),
       })
         .then(async (res) => {
           if (res.status !== 200) {
-            throw new Error('status: ' + res.status);
+            throw new Error("status: " + res.status);
           }
 
           const jsonRes: JSONResponse = await res.json();
@@ -105,14 +112,17 @@ export class MetaData {
   }
 
   getChanelName(pagePath: PAGE_PATH, sessionId: string, key: string) {
-    const endpoint = `${pagePath === PAGE_PATH.WEIGH ? CONNECT_WEIGH_ENDPOINT : CONNECT_EXPORT_ENDPOINT}?sid=${sessionId}`;
+    const endpoint = `${
+      pagePath === PAGE_PATH.WEIGH
+        ? CONNECT_WEIGH_ENDPOINT
+        : CONNECT_EXPORT_ENDPOINT
+    }?sid=${sessionId}`;
 
     return API.fetch(endpoint, {
       method: "get",
       headers: { "Content-Type": "text/plain" },
     })
       .then(async (res) => {
-
         const jsonRes: JSONResponse = await res.json();
         if (jsonRes.error_code == ErrorCode.Success) {
           const rawData: any = secure.aesDecryptUseKey(
@@ -124,7 +134,9 @@ export class MetaData {
           }
         }
 
-        throw new Error(`fetch channel stt: ${jsonRes.error_code} - ${jsonRes.message}`);
+        throw new Error(
+          `fetch channel stt: ${jsonRes.error_code} - ${jsonRes.message}`
+        );
       })
       .catch((e) => {
         console.log("fail to get chanel name", e);
@@ -136,23 +148,31 @@ export class MetaData {
     return API.fetch(SUBMIT_WEIGH_ENDPOINT + `?sid=${this.sessionId}`, {
       method: "post",
       headers: { "Content-Type": "text/plain" },
-      body: JSON.stringify(secure.aesEncrypt({
-        subId: subdId,
-        weigh: weigh,
-      })),
-    }).then(async (res) => {
-      const jsonRes: JSONResponse = await res.json();
-      console.log('submitWeighData done: ', jsonRes.error_code, jsonRes.message);
+      body: JSON.stringify({
+        data: secure.aesEncrypt({
+          subId: subdId,
+          weigh: weigh,
+        }),
+      }),
+    })
+      .then(async (res) => {
+        const jsonRes: JSONResponse = await res.json();
+        console.log(
+          "submitWeighData done: ",
+          jsonRes.error_code,
+          jsonRes.message
+        );
 
-      if (jsonRes.error_code == ErrorCode.Success) {
-        return true;
-      }
-      
-      throw new Error('fail: ' + jsonRes.error_code);
-    }).catch(e => {
-      toaster.show(Lang.instance().text(TextKey.ERR_RETRY)  || '', 2000);
-      console.error('submitWeighData err: ', e);
-      return false;
-    });
+        if (jsonRes.error_code == ErrorCode.Success) {
+          return true;
+        }
+
+        throw new Error("fail: " + jsonRes.error_code);
+      })
+      .catch((e) => {
+        toaster.show(Lang.instance().text(TextKey.ERR_RETRY) || "", 2000);
+        console.error("submitWeighData err: ", e);
+        return false;
+      });
   }
 }
