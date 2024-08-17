@@ -61,7 +61,7 @@ export class MetaData {
         method: "post",
         headers: { "Content-Type": "text/plain" },
         body: secure.aesEncrypt({
-          subId: data,
+          subId: Number(data),
         }),
       })
         .then(async (res) => {
