@@ -13,6 +13,16 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      keyframes: {
+        zoom: {
+          '0%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.5)' },
+          '100%': { transform: 'scale(1)' },
+        },
+      },
+      animation: {
+        zoom: 'zoom 0.5s ease-in-out',
+      },
     },
   },
   plugins: [],

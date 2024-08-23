@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { itemState } from "../state";
 import Image from "next/image";
@@ -14,6 +14,13 @@ const ScanedData: React.FunctionComponent<{
   footerr?: () => React.ReactNode;
 }> = ({ submitTo, footerr }) => {
   const item = useScannedData(submitTo);
+  const [animate, setAnimate] = useState(false);
+
+  useEffect(() => {
+    setAnimate(true);
+    const timer = setTimeout(() => setAnimate(false), 500); 
+    return () => clearTimeout(timer);
+  }, [item.info.packageSeries]);
 
   // const stringView = (text: string) => {
   //   return (
@@ -66,6 +73,7 @@ const ScanedData: React.FunctionComponent<{
   if (!item) return null;
 
   const headerTextKey = SCAN_STATUS_HEADER_MAP.get(item.status) || "";
+  const headerColor = item.status == ScannedItemStatus.Success ? "text-[#00C578]" : "text-[#EF4E49]";
 
   return (
     <div className="flex flex-col w-11/12 bg-white justify-center m-4">
@@ -76,7 +84,7 @@ const ScanedData: React.FunctionComponent<{
           width={24}
           height={24}
         />
-        <span className="mx-1 text-[#00C578] font-semibold">
+        <span className={`mx-1 ${headerColor} font-semibold ${animate ? 'animate-zoom' : ''}`}>
           <LangElement style="" textKey={headerTextKey} />
         </span>
       </div>
