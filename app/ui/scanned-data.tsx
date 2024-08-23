@@ -20,7 +20,7 @@ const ScanedData: React.FunctionComponent<{
     setAnimate(true);
     const timer = setTimeout(() => setAnimate(false), 500); 
     return () => clearTimeout(timer);
-  }, [item.info.packageSeries]);
+  }, [item?.info?.packageSeries]);
 
   // const stringView = (text: string) => {
   //   return (
