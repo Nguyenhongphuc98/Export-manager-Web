@@ -12,7 +12,7 @@ export type ScannedItemData = {
   exportId: string,
   info: {
     id: string,
-    packageSeries: string;
+    packageSeries: [number, number];
     po: string;
     // sku: string;
     packageId: string;

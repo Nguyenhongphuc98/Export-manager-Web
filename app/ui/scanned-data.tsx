@@ -20,7 +20,7 @@ const ScanedData: React.FunctionComponent<{
     setAnimate(true);
     const timer = setTimeout(() => setAnimate(false), 500); 
     return () => clearTimeout(timer);
-  }, [item?.info?.packageSeries]);
+  }, [item?.info?.id]);
 
   // const stringView = (text: string) => {
   //   return (
@@ -45,7 +45,7 @@ const ScanedData: React.FunctionComponent<{
                 return null;
               }
               //@ts-ignore
-              const value = data[k];
+              const value = Array.isArray(data[k]) ? data[k].join("-") : data[k];
               return (
                 <div className="flex w-full mt-1.5 border-b" key={k}>
                   <div className="flex w-3/6 text-start text-[#7B7B7D] font-semibold items-center truncate">

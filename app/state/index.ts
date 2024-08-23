@@ -20,7 +20,7 @@ const defaultItemState: ScannedItemData = {
   exportId: '1',
   info: {
     id: '1',
-    packageSeries: "packageSeries",
+    packageSeries: [1,2],
     po: "po",
     // sku: "sku",
     packageId: "packageId",
