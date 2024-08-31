@@ -102,7 +102,7 @@ export class MetaData {
         })
         .catch((e) => {
           console.log("fail to submit data", e);
-          onDone(data);
+          toaster.show(Lang.instance().text(TextKey.ERR_RETRY) || "", 2000);
         });
     });
   }
