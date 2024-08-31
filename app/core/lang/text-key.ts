@@ -20,6 +20,7 @@ export enum TextKey {
     SUBMIT = 'SUBMIT',
     ERR_RETRY = 'ERR_RETRY',
     ERR_SCAN_AGIAN = 'ERR_SCAN_AGIAN',
+    PROCESSING = 'PROCESSING',
 };
 
 type LangMapingItem = {
@@ -117,6 +118,11 @@ export const LangMaping: Record<string, LangMapingItem> = {
     [TextKey.ERR_SCAN_AGIAN]: {
         vi: "Có lỗi, hãy quét lại.",
         en: "Error, please scan again.",
-        zh: "錯誤，請重新掃描。",
+        zh: "錯誤，請重新掃描",
+    },
+    [TextKey.PROCESSING]: {
+        vi: "Đang xử lý.",
+        en: "Processing.",
+        zh: "處理中",
     },
 }

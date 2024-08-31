@@ -9,6 +9,7 @@ import { useParamsValue } from "./use-params-value";
 import { ScannedItemData, ScannedItemStatus } from "../core/qr/type";
 import popupManager from "../core/popup-manager";
 import Lang from "../core/lang/lang";
+import toaster from "../core/toast-manager";
 
 export function useScannedData(endpoint: string) {
   const [item, setItem] = useRecoilState<ScannedItemData>(itemState);
@@ -31,6 +32,7 @@ export function useScannedData(endpoint: string) {
     MetaData.instance().initSession(endpoint, sid, ek);
 
     startScanQR((data) => {
+      toaster.show(Lang.instance().text(TextKey.PROCESSING) || "");
       MetaData.instance()
         .getFullData(data)
         .then((v) => {
