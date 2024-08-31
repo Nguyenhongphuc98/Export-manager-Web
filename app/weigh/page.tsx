@@ -3,7 +3,7 @@
 import Header from "../ui/header";
 import Noti from "../ui/noti";
 import ScannedData from "../ui/scanned-data";
-import { EXPORT_ENDPOINT } from "../core/const";
+import { EXPORT_ENDPOINT, GET_WEIGH_ENDPOINT } from "../core/const";
 import { HeaderTag } from "../core/type";
 import LangElement from "../ui/lang";
 import { TextKey } from "../core/lang/text-key";
@@ -100,7 +100,7 @@ export default function Weigh() {
       <div className="bg-white flex flex-col w-full h-1/2 items-center justify-between pt-2">
         <div className="flex flex-col w-full items-center">
           <Noti />
-          <ScannedData submitTo={EXPORT_ENDPOINT} footerr={weighInputView} />
+          <ScannedData submitTo={GET_WEIGH_ENDPOINT} footerr={weighInputView} />
           {!allowHitButton && (
             <button
               className={`fixed bottom-10 text-white font-semibold rounded-md h-10 w-3/4 bg-[#D9D9D9]`}
