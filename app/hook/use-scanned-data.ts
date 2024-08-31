@@ -49,7 +49,7 @@ export function useScannedData(endpoint: string) {
           kickout();
         });
     });
-  }, []);
+  }, [endpoint, sid, ek]);
 
   return item;
 }
