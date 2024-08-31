@@ -89,7 +89,7 @@ const ScanedData: React.FunctionComponent<{
         </span>
       </div>
       <div className=" bg-[#F8F8F8]">{getContent()}</div>
-      {item.status == ScannedItemStatus.Success && footerr ? footerr() : null}
+      {item && item.status == ScannedItemStatus.Success && footerr ? footerr() : null}
     </div>
   );
 };
