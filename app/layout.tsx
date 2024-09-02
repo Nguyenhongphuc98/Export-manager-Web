@@ -5,8 +5,10 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { RecoilRoot } from "recoil";
 import Popup from "./ui/popup";
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import Toast from "./ui/toast";
+import IRequest from "./ui/i-request";
+import { ifetch } from "./core/api";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,6 +33,7 @@ export default function RootLayout({
             {children}
             <Popup />
           </Suspense>
+          <IRequest/>
         </RecoilRoot>
       </body>
     </html>
