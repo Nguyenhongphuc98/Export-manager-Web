@@ -21,6 +21,7 @@ export enum TextKey {
     ERR_RETRY = 'ERR_RETRY',
     ERR_SCAN_AGIAN = 'ERR_SCAN_AGIAN',
     PROCESSING = 'PROCESSING',
+    CONFIRM = 'CONFIRM',
 };
 
 type LangMapingItem = {
@@ -124,5 +125,10 @@ export const LangMaping: Record<string, LangMapingItem> = {
         vi: "Đang xử lý.",
         en: "Processing.",
         zh: "處理中",
+    },
+    [TextKey.CONFIRM]: {
+        vi: "Đã hiểu",
+        en: "Confirm",
+        zh: " 确认",
     },
 }

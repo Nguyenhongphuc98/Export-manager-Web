@@ -7,6 +7,8 @@ import Lang from "../core/lang/lang";
 import { useSearchParams } from "next/navigation";
 import { LangKey } from "../core/lang/lang-key";
 import { LANG_PARAM } from "../core/const";
+import LangElement from "./lang";
+import { TextKey } from "../core/lang/text-key";
 
 const Popup: React.FunctionComponent = (props: any) => {
   const [message, setMessage] = useRecoilState<any>(popupState);
@@ -48,9 +50,9 @@ const Popup: React.FunctionComponent = (props: any) => {
           <span className="font-bold m-2">{message}</span>
           <button
             onClick={closePopup}
-            className="bg-[#F5832F] w-fit py-1 px-4 m-4 rounded-md text-white text-lg focus:bg-[#f96a01]"
+            className="bg-[#F5832F] w-fit py-1 px-4 m-4 rounded-md focus:bg-[#f96a01]"
           >
-            Đã hiểu
+           <LangElement style="text-white text-lg" textKey={TextKey.CONFIRM}/>
           </button>
         </div>
       </div>
