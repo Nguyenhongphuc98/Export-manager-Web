@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { ifetch } from '../core/api';
+import AppConfig from '../core/app-config';
 
 const IRequest = () => {
   const iframeRef = useRef(null);
@@ -12,7 +13,7 @@ const IRequest = () => {
     <div className='bg-white'>
       <iframe
         ref={iframeRef}
-        src="http://157.245.196.187:8080"
+        src={AppConfig.host}
         width="1"
         height="1"
         title="Iframe Example"
