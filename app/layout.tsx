@@ -1,14 +1,13 @@
 "use client";
 
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { RecoilRoot } from "recoil";
 import Popup from "./ui/popup";
-import { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 import Toast from "./ui/toast";
 import IRequest from "./ui/i-request";
-import { ifetch } from "./core/api";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,6 +33,7 @@ export default function RootLayout({
             <Popup />
           </Suspense>
           <IRequest/>
+          <SpeedInsights/>
         </RecoilRoot>
       </body>
     </html>
