@@ -5,7 +5,7 @@ const PROXY_URL = "/api/proxy";
 class IFetch {
   public iframe: JSX.IntrinsicElements["iframe"] | null = null;
 
-  fetch(...args: any[]) {
+  fetch(...args: any[]): Promise<Response> {
 
     if (!this.iframe) {
       console.error("no iframe");

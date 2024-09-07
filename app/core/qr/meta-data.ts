@@ -71,7 +71,7 @@ export class MetaData {
           }),
         }),
       })
-        .then(async (res) => {
+        .then(async (res: Response) => {
           if (res.status !== 200) {
             throw new Error("status: " + res.status);
           }
