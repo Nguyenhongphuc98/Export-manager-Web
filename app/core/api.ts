@@ -1,4 +1,4 @@
-const USE_IFETCH = true;
+const USE_IFETCH = false;
 const USE_PROXY = true;
 const PROXY_URL = "/api/proxy";
 
