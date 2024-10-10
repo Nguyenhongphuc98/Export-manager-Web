@@ -36,6 +36,21 @@ const useAudioPlayer = (audioSrc: string) => {
         if (audioRef.current) {
             audioRef.current.muted = true;
         }
+      }, 5000);
+    }
+  };
+
+  const fakePlay = () => {
+    if (audioRef.current) {
+      audioRef.current.muted = false;
+      audioRef.current.currentTime = 0;
+      console.log('unmute');
+
+      setTimeout(() => {
+        if (audioRef.current) {
+            console.log('mutee')
+            audioRef.current.muted = true;
+        }
       }, 500);
     }
   };
@@ -55,7 +70,7 @@ const useAudioPlayer = (audioSrc: string) => {
     }
   };
 
-  return { play, pause, stop };
+  return { play, pause, stop, fakePlay };
 };
 
 export default useAudioPlayer;
