@@ -11,6 +11,8 @@ const useAudioPlayer = (audioSrc: string) => {
     audioRef.current = new Audio(audioSrc);
     audioRef.current.muted = true;
     audioRef.current.preload = 'auto';
+    audioRef.current.loop = true;
+    audioRef.current.volume = 1;
 
     return () => {
       // Clean up: Destroy audio element when the component unmounts
@@ -29,6 +31,12 @@ const useAudioPlayer = (audioSrc: string) => {
       audioRef.current.play().catch(e =>{
         console.log('plau audio fail', e);
       });
+
+      setTimeout(() => {
+        if (audioRef.current) {
+            audioRef.current.muted = true;
+        }
+      }, 500);
     }
   };
 
