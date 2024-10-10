@@ -26,7 +26,7 @@ const Header: React.FunctionComponent<{
         alt="connected-icon"
         onClick={() => {
           play();
-          setMuted(false);
+          setMuted(!muted);
         }}
       />
       {host.tag && <>
