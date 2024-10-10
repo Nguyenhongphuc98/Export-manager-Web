@@ -1,19 +1,34 @@
 'use client'
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import LangElement from "./lang";
 import { useChannelName } from "../hook/use-channel-name";
 import { HeaderTag } from "../core/type";
+import useAudioPlayer from "../hook/useAudio";
 
 const Header: React.FunctionComponent<{
   tag: HeaderTag;
   connected: boolean;
 }> = (host) => {
   const channel = useChannelName(host.tag);
+  const { play, pause, stop } = useAudioPlayer('/phone.mp3');
   
+  const [muted, setMuted] = useState(true);
+
   return host.connected ? (
     <div className="flex flex-none justify-center items-center mb-2 h-8 rounded w-full bg-[#E5EFFF]">
+       <Image
+        className="px-1 w-6"
+        src={muted ? "/mute.png" : "/speaker.png"}
+        width={40}
+        height={40}
+        alt="connected-icon"
+        onClick={() => {
+          play();
+          setMuted(false);
+        }}
+      />
       {host.tag && <>
       <LangElement style="text-[#5198FF] font-semibold" textKey={host.tag}/>
       <div className="w-0.5 h-5 bg-[#969595] mx-2"></div>

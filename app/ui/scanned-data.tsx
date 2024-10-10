@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+'use-client'
+
+import React, { useEffect, useRef, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { itemState } from "../state";
 import Image from "next/image";
@@ -8,6 +10,7 @@ import { HeaderTag } from "../core/type";
 import { useScannedData } from "../hook/use-scanned-data";
 import { SCAN_STATUS_HEADER_MAP, VISIBLE_SCANNED_FIELDS } from "../core/const";
 import { ScannedItemData, ScannedItemStatus } from "../core/qr/type";
+import useAudioPlayer from "../hook/useAudio";
 
 const ScanedData: React.FunctionComponent<{
   submitTo: string;
@@ -16,9 +19,15 @@ const ScanedData: React.FunctionComponent<{
   const item = useScannedData(submitTo);
   const [animate, setAnimate] = useState(false);
 
+  const { play, pause, stop } = useAudioPlayer('/phone.mp3');
+
   useEffect(() => {
     setAnimate(true);
-    const timer = setTimeout(() => setAnimate(false), 500); 
+    const timer = setTimeout(() => setAnimate(false), 500);
+    if (item?.info?.id) {
+      play();
+    }
+   
     return () => clearTimeout(timer);
   }, [item?.info?.id]);
 
