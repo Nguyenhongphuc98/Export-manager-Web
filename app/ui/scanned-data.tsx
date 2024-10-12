@@ -26,9 +26,7 @@ const ScanedData: React.FunctionComponent<{
   useEffect(() => {
     setAnimate(true);
     const timer = setTimeout(() => setAnimate(false), 500);
-    if (item?.info?.id) {
-      play();
-    }
+    play();
     return () => clearTimeout(timer);
   }, [item?.info?.id]);
 

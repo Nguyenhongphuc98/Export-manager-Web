@@ -5,6 +5,8 @@ export class MyAudio {
     private static source: AudioBufferSourceNode | null = null;
     private static audioBuffer: AudioBuffer | null = null;
 
+    private static muted: boolean = true;
+
     constructor(private readonly path: string) {
         this.init();
     }
@@ -22,16 +24,19 @@ export class MyAudio {
        }
     }
 
+    unmute() {
+        MyAudio.muted = false;
+        this.play();
+    }
+
+    mute() {
+        MyAudio.muted = true;
+    }
+
     async play() {
-
-        // this.source.
-        
-        // // Connect the source to the audio context's destination (speakers)
-        // this.source?.connect(this.audioContext.destination);
-
-        // setTimeout(() => {
-        //     this.source?.disconnect(this.audioContext.destination);
-        // }, 300);
+        if (MyAudio.muted == true) {
+            return;
+        }
 
         try {
             

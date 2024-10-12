@@ -23,9 +23,16 @@ const useAudioCtxPlayer = () => {
 
   const play = () => {
     audioRef.current?.play();
-}
+  }
 
-  return { play };
+  const mute = () => {
+    audioRef.current?.mute();
+  }
+  const unmute = () => {
+    audioRef.current?.unmute();
+  }
+
+  return { play, mute, unmute };
 };
 
 export default useAudioCtxPlayer;

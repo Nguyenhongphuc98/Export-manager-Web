@@ -14,7 +14,7 @@ const Header: React.FunctionComponent<{
 }> = (host) => {
   const channel = useChannelName(host.tag);
   // const { play, pause, stop } = useAudioPlayer('/phone.mp3');
-  const { play } = useAudioCtxPlayer();
+  const { mute, unmute } = useAudioCtxPlayer();
   
   const [muted, setMuted] = useState(true);
 
@@ -28,7 +28,9 @@ const Header: React.FunctionComponent<{
         alt="connected-icon"
         onClick={() => {
           if (muted) {
-            play();
+            unmute();
+          } else {
+            mute();
           }
           setMuted(!muted);
         }}
