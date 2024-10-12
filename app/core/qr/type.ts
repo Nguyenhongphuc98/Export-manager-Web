@@ -8,6 +8,7 @@ export enum ScannedItemStatus {
 }
 
 export type ScannedItemData = {
+  uniqueId: number,
   status: ScannedItemStatus;
   exportId: string,
   info: {

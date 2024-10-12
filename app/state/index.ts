@@ -16,6 +16,7 @@ export const hostState = atom({
 
 
 const defaultItemState: ScannedItemData = {
+  uniqueId: Math.random(),
   status: ScannedItemStatus.Success,
   exportId: '1',
   info: {

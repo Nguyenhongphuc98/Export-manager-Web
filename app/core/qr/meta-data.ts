@@ -53,6 +53,7 @@ export class MetaData {
   getFullData(data: any): Promise<ScannedItemData> {
     return new Promise((resolve) => {
       const onDone = (meta: ScannedItemData) => {
+        data.uniqueId = Math.random();
         this.lastData = meta;
         resolve(meta);
       };

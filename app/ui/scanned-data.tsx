@@ -28,7 +28,7 @@ const ScanedData: React.FunctionComponent<{
     const timer = setTimeout(() => setAnimate(false), 500);
     play();
     return () => clearTimeout(timer);
-  }, [item]);
+  }, [item.uniqueId]);
 
   // const stringView = (text: string) => {
   //   return (
