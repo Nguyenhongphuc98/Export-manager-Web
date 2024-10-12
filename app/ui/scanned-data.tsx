@@ -10,6 +10,7 @@ import { HeaderTag } from "../core/type";
 import { useScannedData } from "../hook/use-scanned-data";
 import { SCAN_STATUS_HEADER_MAP, VISIBLE_SCANNED_FIELDS } from "../core/const";
 import { ScannedItemData, ScannedItemStatus } from "../core/qr/type";
+import { PipAudio } from "../core/audio";
 // import useAudioPlayer from "../hook/useAudio";
 
 const ScanedData: React.FunctionComponent<{
@@ -24,7 +25,9 @@ const ScanedData: React.FunctionComponent<{
   useEffect(() => {
     setAnimate(true);
     const timer = setTimeout(() => setAnimate(false), 500);
-   
+    if (item?.info?.id) {
+      PipAudio.play();
+    }
     return () => clearTimeout(timer);
   }, [item?.info?.id]);
 
