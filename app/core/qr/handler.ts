@@ -40,7 +40,7 @@ export function startScanQR(onSuccess: (data: any) => void) {
     .start(
       { facingMode: "environment" },
       {
-        fps: 2,
+        fps: 4,
         qrbox: (w,h) => {return {width: w *0.8, height: h *0.8}},
         aspectRatio: 1.0
       },
