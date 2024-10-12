@@ -5,7 +5,7 @@ import Image from "next/image";
 import LangElement from "./lang";
 import { useChannelName } from "../hook/use-channel-name";
 import { HeaderTag } from "../core/type";
-import { PipAudio } from "../core/audio";
+import useAudioCtxPlayer from "../hook/use-audio-ctx";
 // import useAudioPlayer from "../hook/useAudio";
 
 const Header: React.FunctionComponent<{
@@ -14,6 +14,7 @@ const Header: React.FunctionComponent<{
 }> = (host) => {
   const channel = useChannelName(host.tag);
   // const { play, pause, stop } = useAudioPlayer('/phone.mp3');
+  const { play } = useAudioCtxPlayer();
   
   const [muted, setMuted] = useState(true);
 
@@ -27,7 +28,7 @@ const Header: React.FunctionComponent<{
         alt="connected-icon"
         onClick={() => {
           if (muted) {
-            PipAudio.play();
+            play();
           }
           setMuted(!muted);
         }}

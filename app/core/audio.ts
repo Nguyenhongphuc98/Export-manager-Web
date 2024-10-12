@@ -1,9 +1,9 @@
 'use client'
 
-class MyAudio {
-    private audioContext = new AudioContext();
-    private source: AudioBufferSourceNode | null = null;
-    private audioBuffer: AudioBuffer | null = null;
+export class MyAudio {
+    private static audioContext = new AudioContext();
+    private static source: AudioBufferSourceNode | null = null;
+    private static audioBuffer: AudioBuffer | null = null;
 
     constructor(private readonly path: string) {
         this.init();
@@ -15,7 +15,7 @@ class MyAudio {
         const arrayBuffer = await response.arrayBuffer();
         
         // Decode the audio file data into an AudioBuffer
-        this.audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer);
+        MyAudio.audioBuffer = await MyAudio.audioContext.decodeAudioData(arrayBuffer);
         
        } catch (error) {
         console.log('init audio got error');
@@ -36,10 +36,10 @@ class MyAudio {
         try {
             
             // Create a buffer source
-            this.source = this.audioContext.createBufferSource();
-            this.source.buffer = this.audioBuffer;
-            this.source?.start();
-            this.source?.connect(this.audioContext.destination);
+            MyAudio.source = MyAudio.audioContext.createBufferSource();
+            MyAudio.source.buffer = MyAudio.audioBuffer;
+            MyAudio.source?.start();
+            MyAudio.source?.connect(MyAudio.audioContext.destination);
             
             
            } catch (error) {
@@ -47,5 +47,3 @@ class MyAudio {
            }
     }
 }
-
-export const PipAudio = new MyAudio('/phone.mp3');
