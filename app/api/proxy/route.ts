@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
       headers: req.headers,
     });
 
-    console.log("aaa", targetUrl, req.body);
+    console.log("get", targetUrl, req.body);
 
     // Forward the response from the target URL to the client
     const data = await response.json();
@@ -36,10 +36,12 @@ export async function POST(req: NextRequest) {
   const searchParams = url.searchParams;
 
   try {
+   
     const targetUrl = searchParams.get("o") || "";
+    console.log("do with url", targetUrl);
     const text = await req.text();
 
-    console.log("aaa", targetUrl, text);
+    console.log("post", targetUrl, text);
 
     // Forward the request to the target URL
     const response = await fetch(targetUrl, {

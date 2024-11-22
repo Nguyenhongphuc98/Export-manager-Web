@@ -58,6 +58,7 @@ export class API {
     }
 
     if (USE_PROXY) {
+      console.log('do fetch', PROXY_URL + "?o=" + url, options);
       return fetch(PROXY_URL + "?o=" + url, options);
     } else {
       return fetch(url, options);

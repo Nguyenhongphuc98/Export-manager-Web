@@ -27,14 +27,15 @@ export function useChannelName(tag: HeaderTag) {
       return;
     }
 
-    const kickout = () => {
+    const kickout = (e: any) => {
       if (window.location.pathname !== "/") {
-        window.location.replace("/");
+        console.log('errshould kickout', e);
+        // window.location.replace("/");
       }
     };
 
     if (!sid) {
-      kickout();
+      kickout('nosid');
       return;
     }
 
@@ -45,7 +46,7 @@ export function useChannelName(tag: HeaderTag) {
         setChannel(name);
       })
       .catch((e) => {
-        kickout();
+        kickout(e);
       });
   }, [sid, ek]);
 
