@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
     const targetUrl = searchParams.get("o") || "";
     console.log('target', targetUrl);
     // Forward the request to the target URL
-    const response = await fetch('https://google.com', {
+    const response = await fetch(targetUrl, {
       method: req.method,
       headers: req.headers,
     });
