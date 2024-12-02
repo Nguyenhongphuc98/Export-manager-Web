@@ -6,7 +6,7 @@ import { RecoilRoot } from "recoil";
 import Popup from "./ui/popup";
 import { Suspense } from "react";
 import Toast from "./ui/toast";
-import IRequest from "./ui/i-request";
+// import IRequest from "./ui/i-request";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -32,7 +32,7 @@ export default function RootLayout({
             {children}
             <Popup />
           </Suspense>
-          <IRequest/>
+          {/* <IRequest/> */}
           <SpeedInsights/>
         </RecoilRoot>
       </body>
