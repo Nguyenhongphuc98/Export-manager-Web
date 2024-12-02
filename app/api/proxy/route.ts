@@ -7,14 +7,14 @@ export async function GET(req: NextRequest) {
 
   try {
     const targetUrl = searchParams.get("o") || "";
-
+    console.log('target', targetUrl);
     // Forward the request to the target URL
     const response = await fetch(targetUrl, {
       method: req.method,
       headers: req.headers,
     });
 
-    console.log("get", targetUrl, req.body);
+    console.log("get success", targetUrl);
 
     // Forward the response from the target URL to the client
     const data = await response.json();
